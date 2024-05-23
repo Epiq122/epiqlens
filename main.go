@@ -10,9 +10,9 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func homeHandler(w http.ResponseWriter, _ *http.Request) {
+func executeTemplate(w http.ResponseWriter, filepath string) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	tpl, err := template.ParseFiles("templates/home.gohtml")
+	tpl, err := template.ParseFiles(filepath)
 	if err != nil {
 		log.Printf("parsing template: %v", err)
 		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
@@ -20,25 +20,21 @@ func homeHandler(w http.ResponseWriter, _ *http.Request) {
 	}
 	err = tpl.Execute(w, nil)
 	if err != nil {
-		panic(err)
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
+		return
 	}
+
+}
+
+func homeHandler(w http.ResponseWriter, _ *http.Request) {
+	tplPath := filepath.Join("templates", "home.gohtml")
+	executeTemplate(w, tplPath)
 }
 
 func contactHandler(w http.ResponseWriter, _ *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	tplPath := filepath.Join("templates", "contact.gohtml")
-	tpl, err := template.ParseFiles(tplPath)
-	if err != nil {
-		log.Printf("parsing template: %v", err)
-		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
-		return
-	}
-	err = tpl.Execute(w, nil)
-	if err != nil {
-		log.Printf("parsing template: %v", err)
-		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
-		return
-	}
+	executeTemplate(w, tplPath)
 }
 
 func faqHandler(w http.ResponseWriter, _ *http.Request) {
