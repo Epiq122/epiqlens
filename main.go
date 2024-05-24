@@ -18,8 +18,11 @@ func main() {
 		views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "contact-page.gohtml"))))
 	r.Get("/faq", controllers.FAQ(
 		views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "faq-page.gohtml"))))
-	r.Get("/signup", controllers.StaticHandler(
-		views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "signup-page.gohtml"))))
+
+	var usersC controllers.Users
+	usersC.Templates.Signup = views.Must(views.ParseFS(
+		templates.FS, "layout-page.gohtml", "signup-page.gothtml"))
+	r.Get("/signup", usersC.Signup)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
