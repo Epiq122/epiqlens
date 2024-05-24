@@ -1,0 +1,30 @@
+{{define "page"}}
+{{template "header" .}}
+<form action="post">
+  <div>
+    <label for="email">Email Address</label>
+    <input
+      name="email"
+      id="email"
+      type="email"
+      placeholder="email address"
+      required
+      autocomplete="email"
+    />
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input
+      name="password"
+      id="password"
+      type="password"
+      placeholder="password"
+      required
+    />
+  </div>
+  <div>
+    <button type="submit">Sign Up</button>
+  </div>
+</form>
+{{template "footer" .}}
+{{ end }}
