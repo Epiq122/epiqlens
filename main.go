@@ -21,8 +21,9 @@ func main() {
 
 	var usersC controllers.Users
 	usersC.Templates.Signup = views.Must(views.ParseFS(
-		templates.FS, "layout-page.gohtml", "signup-page.gothtml"))
+		templates.FS, "layout-page.gohtml", "signup-page.gohtml"))
 	r.Get("/signup", usersC.Signup)
+	r.Post("/signup", usersC.CreateUser)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
