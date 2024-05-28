@@ -2,13 +2,11 @@ package controllers
 
 import (
 	"net/http"
-
-	"github.com/epiq122/epiqlens/views"
 )
 
 type Users struct {
 	Templates struct {
-		Signup views.Template
+		Signup Template
 	}
 }
 

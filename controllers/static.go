@@ -8,7 +8,7 @@ import (
 )
 
 type Static struct {
-	Template views.Template
+	Template Template
 }
 
 func (static Static) ServeHTTP(w http.ResponseWriter, r *http.Request) {
