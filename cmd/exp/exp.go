@@ -7,13 +7,29 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
-func main() {
+type PostgresConfig struct {
+	Host     string
+	Port     string
+	User     string
+	Password string
+	Database string
+	SSLmode  string
+}
 
-	db, err := sql.Open("pgx", "host=localhost port=5433 user=epiq password=epiq dbname=epiqlens sslmode=disable")
-	if err != nil {
-		panic(err)
+func (cfg PostgresConfig) String() string {
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Database, cfg.SSLmode)
+}
+
+func main() {
+	cfg := PostgresConfig{
+		Host:     "localhost",
+		Port:     "5433",
+		User:     "epiq",
+		Password: "epiq",
+		Database: "epiqlens",
+		SSLmode:  "disable",
 	}
-	defer db.Close()
+	db, err := sql.Open("pgx", cfg.String())
 
 	err = db.Ping()
 	if err != nil {
